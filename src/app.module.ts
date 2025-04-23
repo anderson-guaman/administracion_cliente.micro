@@ -3,6 +3,7 @@ import { ClienteModule } from './cliente/cliente.module';
 import { SwaggerModule } from '@nestjs/swagger';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
 
     SwaggerModule,
-    ClienteModule, 
+    ClienteModule,
+    UsuarioModule, 
   ],
   controllers: [],
   providers: [],
