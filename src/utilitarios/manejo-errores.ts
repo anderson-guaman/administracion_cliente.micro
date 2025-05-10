@@ -28,7 +28,7 @@ export abstract class ManejoError {
             // Otros códigos personalizados que quieras manejar
             default:
                 // Si no reconocemos el código, lanzamos un error genérico
-                throw new InternalServerErrorException('Error inesperado en la base de datos');
+                throw new InternalServerErrorException(`Error inesperado en la base de datos: ${error.message} `);
         }
     }
 }

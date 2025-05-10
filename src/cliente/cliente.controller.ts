@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ClienteService } from './cliente.service';
 import { CreateClienteDto,UpdateClienteDto } from './dto';
+
 
 @ApiTags('ClienteController')
 @Controller('clienteController')
@@ -17,6 +18,10 @@ export class ClienteController {
   @Get()
   findAll() {
     return this.clienteService.findAll();
+  }
+  @Get('tipoDocumento')
+  tipoDocumento() {
+    return this.clienteService.tipoDocumentos();
   }
 
   @Get(':filtro')
@@ -33,4 +38,7 @@ export class ClienteController {
   remove(@Param('id') id: string) {
     return this.clienteService.remove(+id);
   }
+
+
+
 }

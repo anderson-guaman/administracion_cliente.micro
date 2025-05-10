@@ -1,11 +1,12 @@
-import { Type } from './../../node_modules/typeorm/node_modules/path-scurry/dist/esm/index.d';
-import { Injectable } from '@nestjs/common';
+
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { ManejoError } from 'src/utilitarios/manejo-errores';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cliente } from './entities/cliente.entity';
 import { DataSource, Repository } from 'typeorm';
+import { Validador } from 'src/utilitarios/validador';
 
 @Injectable()
 export class ClienteService {
@@ -19,6 +20,9 @@ export class ClienteService {
   async create(createClienteDto: CreateClienteDto) {
     try {
       const { usuario, ...clienteDto } = createClienteDto;
+      
+      if(!Validador.cedula(clienteDto.numeroCedulaCliente)) throw new BadRequestException('Formato de ceduala invalido');
+      if(!Validador.numerosCelulares(clienteDto.telefonoCliente)) throw new BadRequestException('Existe un número invelido de telefono invalido');
       const cliente = this.clienteRepository.create({
         ...clienteDto,
         usuarioCreacion: usuario,
@@ -99,6 +103,22 @@ export class ClienteService {
       console.log(error);
       ManejoError.handleDBErrors(error)
     }
+  }
+
+
+  async tipoDocumentos() {
+    try {
+      // return ['DNI', 'Pasaporte', 'Licencia de conducir']
+      // const tipoIdentificaciones: string[] = Object.values(TipoIdentificacion.CEDULA)
+      // const tipoIdentificaciones: string[] = ['cedula','ruc','pasaporte']
+      // console.log(tipoIdentificaciones)
+      // return tipoIdentificaciones
+      return ['cedula','ruc','pasaporte']
+    } catch (error) {
+      console.log(error);
+      ManejoError.handleDBErrors(error)
+    }
+    
   }
 
 }
